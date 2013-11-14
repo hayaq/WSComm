@@ -1,4 +1,5 @@
 WSComm
 ======
 
-WebSocket based communication between a native code and javascript in UIWebView.
+WebSocket local communication between a native code and javascript in UIWebView embeded in the App.
+
