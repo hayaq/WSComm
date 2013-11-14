@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>Client</title>
+<style type="text/css">
+body{
+	background-color: #aaa;
+}
+h1{
+	margin: 20px 0px;
+	color: #fff;
+	text-align: center;
+	font-size: 12pt;
+}
+.error{
+	color: #f00;
+}
+</style>
+<script type='text/javascript'>
+	var ws = null;
+	function run(){
+		var count = 0;
+		var elem = document.getElementById("message");
+		
+		var tid = 0;
+		var updateFunc = function(){
+			ws.send("Message from WebView "+count++);
+		}
+		
+		ws = new WebSocket("ws://127.0.0.1:8000/");
+		
+		ws.onopen = function(){
+			elem.innerHTML = "Connected!";
+			tid = setInterval(updateFunc,16);
+		};
+		
+		ws.onerror = function(err){
+			elem.innerHTML = "Error";
+			elem.className = "error";
+			clearInterval(tid);
+		}
+		
+		ws.onmessage = function(evt){
+			elem.innerHTML = evt.data;
+		};
+		
+	}
+	setTimeout(run,1000);
+</script>
+</head>
+<body>
+<h1 id="message"></h1>
+</body>
+</html>
